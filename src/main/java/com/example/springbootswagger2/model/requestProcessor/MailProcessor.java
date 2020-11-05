@@ -24,42 +24,60 @@ public class MailProcessor {
 	
 	public static String fromMail = "udayk998@yahoo.com";
 	public static String fromMailPass = "Uteja@998";
-	
 	public static String toMail = "uteja70@gmail.com";
 	
 	public String sendMail(String mailId, ErrorData errorData) {
+		String subject = errorData.getAccountName() + " : " + errorData.getErrorType() + " error occured";
+		String body = "<html>" + "<h2 style=\"background-color:powderblue;\">Welcome To Stackers Report</h2>"
+				+ "</body>"
+				+ "<head><style>table, th, td {  border: 1px solid black; } </style></head><body>"
+				+ "<h2>Detail Report</h2>" + "<table style=\"width:100%\">" + "<tr>" + "<th>Account Name</th>"
+				+ "<th>Account Number</th>" + "<th>Time Stamp</th>" + "<th>Status</th>" + "</tr>" + "<tr>" + "<td>"
+				+ errorData.getAccountName() + "</td>" + "<td>" + errorData.getAccountNumber() + "</td>" + "<td>"
+				+ errorData.getTimeStamp() + "</td>" + "<td>" + errorData.getStatus() + "</td>" + "</tr>" 
+				+ "</table>"+ "</br> </br>" + "<table style=\"width:100%\">" + "<tr>" + "<th>System</th>"
+				+ "<th>Error Type</th>" + "<th>Error Details</th>" + "<th>Error Code</th>"
+				+ "<th>Error Criticality</th>" + "</tr>" + "<td>" + errorData.getResponsibleSystem() + "</td>" + "<td>"
+				+ errorData.getErrorType() + "</td>" + "<td>" + errorData.getErrorDetails() + "</td>" + "<td>"
+				+ errorData.getErrorCode() + "</td>" + "<td>" + errorData.getErrorCriticality() + "</td>" + "</tr>"
+				+ "</table></body></html><p>Reagards,</p></n><p>Stackers Team</p>";
 		//from,password,to,subject,message  
-	     return send(fromMail,"fromMailPass",fromMail,"hello","How r u?");  
-	     //change from, password and to  
+		return send(fromMail,"fromMailPass",mailId,subject,body);  
 	}
 	
-	public static String send(String from,String password,String to,String sub,String msg){  
-		// Get properties object
-		Properties props = new Properties();
-		props.put("mail.smtp.port", "587");
-		props.put("mail.host", "smtp.mail.yahoo.com");
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		// get Session
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			@Override
+	public static String send(String from,String password,String to,String sub,String body){  
+		String host = "smtp.mail.yahoo.com";
+		Properties properties = System.getProperties();
+
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.auth", "true");
+
+		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(from, password);
+				return new PasswordAuthentication("udayk998", "zitipihhvoinkemf");
 			}
 		});
-		// compose message
+
+		session.setDebug(true);
 		try {
 			MimeMessage message = new MimeMessage(session);
+
+			message.setFrom(new InternetAddress(from));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.setSubject(sub);
-			message.setText(msg);
-			// send message
+			message.setContent(body,"text/html");
+
+			System.out.println("sending...");
 			Transport.send(message);
-			System.out.println("message sent successfully");
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
+			System.out.println("Sent message successfully....");
+		} catch (MessagingException mex) {
+			mex.printStackTrace();
+			if(!mex.getMessage().isEmpty()) {
+				return "400";
+			}
+		} 
 		return "202";
 	}
 }

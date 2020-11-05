@@ -43,7 +43,7 @@ public class Swagger2DemoRestController {
 		return errorData;
 	}
 	
-	@ApiOperation(value = "Send mail to a given mailId",response = String.class)
+	@ApiOperation(value = "Send mail to a given mailId",response = String.class, tags = "sendMailToTeam")
 	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
 	public String sendMail(@RequestBody PostData postData) throws ClassNotFoundException, SQLException {
 		System.out.println("given mailId : " + postData.getMailId());

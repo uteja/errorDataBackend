@@ -19,6 +19,26 @@ public class ErrorData {
 	private String errorDetails;
 	
 	private String status;
+	
+	private String errorCriticality;
+	
+	private String errorCode;
+	
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getErrorCriticality() {
+		return errorCriticality;
+	}
+
+	public void setErrorCriticality(String errorCriticality) {
+		this.errorCriticality = errorCriticality;
+	}
 
 	public String getAccountNumber() {
 		return accountNumber;

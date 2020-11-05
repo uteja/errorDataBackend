@@ -40,12 +40,17 @@ public class ErrorDataProcessor {
 			errorData.setResponsibleSystem(rs.getString("RESPONSIBLESYSTEM"));
 			errorData.setStatus(rs.getString("STATUS"));
 			errorData.setTimeStamp(rs.getString("TIMESTAMP"));
-			
+			errorData.setErrorCriticality(rs.getString("ERRORCRITICALITY"));
+			errorData.setErrorCode(rs.getString("ERRORCODE"));
 			System.out.println("ID = " + rs.getString("ACCOUNTNAME"));
 			rs.close();
 			stmt.close();
 			c.close();
 		}
+		if (errorData.getAccountName().isEmpty()) {
+			throw new NoSuchFieldError("No account found!");
+		}
+
 		return errorData;
 	}
 
