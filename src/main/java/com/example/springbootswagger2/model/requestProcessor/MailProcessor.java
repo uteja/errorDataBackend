@@ -17,6 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.example.springbootswagger2.model.ErrorData;
 import com.sun.mail.smtp.SMTPTransport;
 
 public class MailProcessor {
@@ -26,7 +27,7 @@ public class MailProcessor {
 	
 	public static String toMail = "uteja70@gmail.com";
 	
-	public String sendMail(String mailId) {
+	public String sendMail(String mailId, ErrorData errorData) {
 		//from,password,to,subject,message  
 	     return send(fromMail,"fromMailPass",fromMail,"hello","How r u?");  
 	     //change from, password and to  
