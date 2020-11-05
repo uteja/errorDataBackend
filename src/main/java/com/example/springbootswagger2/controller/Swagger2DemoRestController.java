@@ -43,6 +43,15 @@ public class Swagger2DemoRestController {
 		return errorData;
 	}
 	
+	@ApiOperation(value = "Get all errors ", response = ErrorData.class, tags = "getAllErrorData")
+	@RequestMapping(value = "/getAllErrorData", method = RequestMethod.GET)
+	public ErrorData[] getAllErrorData() throws ClassNotFoundException, SQLException {
+		System.out.println("entered the controller");
+		errorDataProcessor = new ErrorDataProcessor();
+		ErrorData[] errorData = errorDataProcessor.getAllErrorData();
+		return errorData;
+	}
+	
 	@ApiOperation(value = "Send mail to a given mailId",response = String.class, tags = "sendMailToTeam")
 	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
 	public String sendMail(@RequestBody PostData postData) throws ClassNotFoundException, SQLException {

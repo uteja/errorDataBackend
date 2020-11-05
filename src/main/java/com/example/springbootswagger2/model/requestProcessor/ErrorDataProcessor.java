@@ -54,4 +54,46 @@ public class ErrorDataProcessor {
 		return errorData;
 	}
 
+	public ErrorData[] getAllErrorData() throws ClassNotFoundException, SQLException {
+		Connection c = null;
+		Statement stmt = null;
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:C:/Users/AC52263/Desktop/hackathon/code/spring-boot-swagger2/errorData.db");
+		c.setAutoCommit(false);
+		System.out.println("Opened database successfully");
+
+		stmt = c.createStatement();
+		String sql = "SELECT * FROM ERRORDATA";
+		PreparedStatement pstmt  = c.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		System.out.println(rs.getRow());
+		int totalRows = 0;
+		ResultSet ct = stmt.executeQuery("SELECT COUNT(*) FROM errorData");
+		if (ct.next()) {
+			totalRows = ct.getInt(1);
+		}
+		ErrorData[] errors = new ErrorData[totalRows--];
+		ErrorData errorData = new ErrorData();
+		while (rs.next()) {
+			errorData.setAccountName(rs.getString("ACCOUNTNAME"));
+			errorData.setAccountNumber(rs.getString("ACCOUNTNUMBER"));
+			errorData.setErrorDetails(rs.getString("ERRORDETAILS"));
+			errorData.setErrorType(rs.getString("ERRORTYPE"));
+			errorData.setResponsibleSystem(rs.getString("RESPONSIBLESYSTEM"));
+			errorData.setStatus(rs.getString("STATUS"));
+			errorData.setTimeStamp(rs.getString("TIMESTAMP"));
+			errorData.setErrorCriticality(rs.getString("ERRORCRITICALITY"));
+			errorData.setErrorCode(rs.getString("ERRORCODE"));
+			System.out.println("ID = " + rs.getString("ACCOUNTNAME"));
+			errors[totalRows] = errorData;
+			totalRows--;
+		}
+		ct.close();
+		rs.close();
+		stmt.close();
+		c.close();
+		return errors;
+	}
+
 }
