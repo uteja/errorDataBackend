@@ -74,8 +74,8 @@ public class ErrorDataProcessor {
 			totalRows = ct.getInt(1);
 		}
 		ErrorData[] errors = new ErrorData[totalRows--];
-		ErrorData errorData = new ErrorData();
 		while (rs.next()) {
+			ErrorData errorData = new ErrorData();
 			errorData.setAccountName(rs.getString("ACCOUNTNAME"));
 			errorData.setAccountNumber(rs.getString("ACCOUNTNUMBER"));
 			errorData.setErrorDetails(rs.getString("ERRORDETAILS"));

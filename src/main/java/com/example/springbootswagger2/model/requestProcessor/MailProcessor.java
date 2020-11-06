@@ -24,7 +24,7 @@ public class MailProcessor {
 	
 	public static String fromMail = "udayk998@yahoo.com";
 	public static String fromMailPass = "Uteja@998";
-	public static String toMail = "uteja70@gmail.com";
+	public static String toMail = "udayteja.k@centurylink.com";
 	
 	public String sendMail(String mailId, ErrorData errorData) {
 		String subject = errorData.getAccountName() + " : " + errorData.getErrorType() + " error occured";
